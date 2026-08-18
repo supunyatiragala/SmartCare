@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 @Service
 public class AdmissionService {
@@ -40,7 +40,6 @@ public class AdmissionService {
 
         admission.setPatient(patient);
         admission.setRoom(room);
-
         if (admission.getAdmissionDate() == null) {
             admission.setAdmissionDate(LocalDate.now());
         }
@@ -49,5 +48,9 @@ public class AdmissionService {
         }
 
         return admissionRepository.save(admission);
+    }
+
+    public List<Admission> getAllAdmissions() {
+        return admissionRepository.findAll();
     }
 }
