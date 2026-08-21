@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "bill")
+@Table(name = "Bill")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,23 +17,19 @@ import java.time.LocalDate;
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bill_id")
-    private Long billId;
+    @Column(name = "Bill_ID", length = 20)
+    private String billId;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
 
-    @Column(name = "bill_date", nullable = false)
-    private LocalDate billDate = LocalDate.now();
+    @Column(name = "Bill_Date", nullable = false)
+    private LocalDate billDate;
 
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "Total_Amount", nullable = false)
     private Double totalAmount;
 
-    @Column(name = "payment_status", nullable = false)
+    @Column(name = "Payment_Status")
     private String paymentStatus = "Unpaid";
-
-    @Column(name = "payment_method")
-    private String paymentMethod;
 }

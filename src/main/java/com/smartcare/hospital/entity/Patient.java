@@ -1,36 +1,23 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "patient")
+@Table(name = "patients")
+@PrimaryKeyJoinColumn(name = "Patient_ID")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Patient extends Person {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "patient_id")
-    private Long patientId;
-
-    @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
-
-    private String gender;
-    private String address;
-
-    @Column(name = "blood_group")
+    @Column(name = "blood_group", length = 5)
     private String bloodGroup;
 
-    @Column(name = "emergency_contact")
+    @Column(name = "emergency_contact", length = 15)
     private String emergencyContact;
-
-    // Person Class එකේ Method එක Override කිරීම (Polymorphism)
-    @Override
-    public String getDetails() {
-        return "Patient Name: " + getFullName() + " | Blood Group: " + bloodGroup;
-    }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "labtest")
+@Table(name = "Laboratory_Test")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,30 +17,26 @@ import java.time.LocalDate;
 public class LabTest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "lab_test_id")
-    private Long labTestId;
+    @Column(name = "Lab_Test_ID", length = 20)
+    private String labTestId;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "Doctor_ID")
     private Doctor doctor;
 
-    @Column(name = "test_name")
+    @Column(name = "Test_Name", nullable = false, length = 100)
     private String testName;
 
-    @Column(name = "test_date")
+    @Column(name = "Test_Date", nullable = false)
     private LocalDate testDate;
 
-    @Column(name = "test_result")
+    @Column(name = "Test_Result")
     private String testResult;
 
-    @Column(name = "technician_name")
-    private String technicianName;
-
-    @Column(name = "test_status")
-    private String testStatus;
+    @Column(name = "Test_Status")
+    private String testStatus = "Pending";
 }

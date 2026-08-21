@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "admission")
+@Table(name = "Admission")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,23 +17,23 @@ import java.time.LocalDate;
 public class Admission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admission_id")
-    private Long admissionId;
+    @Column(name = "Admission_ID", length = 20)
+    private String admissionId;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "Room_ID", nullable = false)
     private Room room;
 
-    @Column(name = "admission_date", nullable = false)
-    private LocalDate admissionDate = LocalDate.now();
+    @Column(name = "Admission_Date", nullable = false)
+    private LocalDate admissionDate;
 
-    @Column(name = "discharge_date")
+    @Column(name = "Discharge_Date")
     private LocalDate dischargeDate;
 
-    private String status = "Admitted";
+    @Column(name = "Admission_Status")
+    private String admissionStatus = "Admitted";
 }

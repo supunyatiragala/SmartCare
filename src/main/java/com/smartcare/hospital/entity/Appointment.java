@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointment")
+@Table(name = "Appointment")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,27 +18,26 @@ import java.time.LocalTime;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointment_id")
-    private Long appointmentId;
+    @Column(name = "Appointment_ID", length = 20)
+    private String appointmentId;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
 
-
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "Doctor_ID", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "appointment_date", nullable = false)
+    @Column(name = "Appointment_Date", nullable = false)
     private LocalDate appointmentDate;
 
-    @Column(name = "appointment_time", nullable = false)
+    @Column(name = "Appointment_Time", nullable = false)
     private LocalTime appointmentTime;
 
-    @Column(name = "consultation_room", nullable = false)
+    @Column(name = "Consultation_Room", length = 20)
     private String consultationRoom;
 
-    private String status = "Scheduled";
+    @Column(name = "Appointment_Status")
+    private String appointmentStatus = "Occupied";
 }

@@ -7,27 +7,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "doctor")
+@Table(name = "Doctor")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doctor extends Person {
+public class Doctor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "doctor_id")
-    private Long doctorId;
+    @Column(name = "Doctor_ID", length = 20)
+    private String doctorId;
 
-    private String qualification;
+    @Column(name = "Doctor_Name", nullable = false, length = 100)
+    private String doctorName;
+
+    @Column(name = "Specialization", length = 100)
     private String specialization;
 
-    @Column(name = "consultation_fee")
-    private Double consultationFee;
+    @Column(name = "Contact_Number", length = 15)
+    private String contactNumber;
 
-    // Person class එකෙන් එන Abstract Method එක Override කිරීම (Polymorphism)
-    @Override
-    public String getDetails() {
-        return "Doctor: " + getFullName() + " | Specialization: " + specialization;
-    }
+    @ManyToOne
+    @JoinColumn(name = "Department_ID")
+    private Department department;
 }
