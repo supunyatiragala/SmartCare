@@ -27,7 +27,8 @@ public class Doctor {
     @Column(name = "Qualification", length = 100)
     private String qualification;
 
-    @Column(name = "Consultation_fee", precision = 10, scale = 2)
+    // precision සහ scale ඉවත් කර ඇත
+    @Column(name = "Consultation_fee")
     private Double consultationFee;
 
     @ManyToOne
