@@ -21,11 +21,14 @@ public class Doctor {
     @Column(name = "Doctor_Name", nullable = false, length = 100)
     private String doctorName;
 
-    @Column(name = "Specialization", length = 100)
+    @Column(name = "Specialization", nullable = false, length = 100)
     private String specialization;
 
-    @Column(name = "Contact_Number", length = 15)
-    private String contactNumber;
+    @Column(name = "Qualification", length = 100)
+    private String qualification;
+
+    @Column(name = "Consultation_fee", precision = 10, scale = 2)
+    private Double consultationFee;
 
     @ManyToOne
     @JoinColumn(name = "Department_ID")

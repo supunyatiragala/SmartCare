@@ -16,12 +16,23 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @PostMapping
-    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
-        return ResponseEntity.ok(doctorService.saveDoctor(doctor));
+    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+        return ResponseEntity.ok(doctorService.addDoctor(doctor));
     }
 
     @GetMapping
     public ResponseEntity<List<Doctor>> getAllDoctors() {
         return ResponseEntity.ok(doctorService.getAllDoctors());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Doctor> getDoctorById(@PathVariable String id) {
+        return ResponseEntity.ok(doctorService.getDoctorById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteDoctor(@PathVariable String id) {
+        doctorService.deleteDoctor(id);
+        return ResponseEntity.ok("Doctor deleted successfully!");
     }
 }
