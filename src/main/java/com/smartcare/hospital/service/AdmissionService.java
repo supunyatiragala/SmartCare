@@ -25,26 +25,28 @@ public class AdmissionService {
     private RoomRepository roomRepository;
 
     public Admission admitPatient(Admission admission) {
-        Patient patient = patientRepository.findById(admission.getPatient().getPatientId())
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        String patientId = admission.getPatient().getPersonId();
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found with ID: " + patientId));
 
-        Room room = roomRepository.findById(admission.getRoom().getRoomId())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+        String roomId = admission.getRoom().getRoomId();
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with ID: " + roomId));
 
-        if (!room.getAvailability()) {
-            throw new RuntimeException("Room is already occupied!");
+        // Room availability string එකක් බැවින් equalIgnoreCase පරීක්ෂා කිරීම
+        if ("Not Available".equalsIgnoreCase(room.getAvailability())) {
+            throw new RuntimeException("Room " + roomId + " is not available");
         }
-
-        room.setAvailability(false);
-        roomRepository.save(room);
 
         admission.setPatient(patient);
         admission.setRoom(room);
+
         if (admission.getAdmissionDate() == null) {
             admission.setAdmissionDate(LocalDate.now());
         }
-        if (admission.getStatus() == null) {
-            admission.setStatus("Admitted");
+
+        if (admission.getAdmissionStatus() == null) {
+            admission.setAdmissionStatus("Admitted");
         }
 
         return admissionRepository.save(admission);
@@ -52,5 +54,10 @@ public class AdmissionService {
 
     public List<Admission> getAllAdmissions() {
         return admissionRepository.findAll();
+    }
+
+    public Admission getAdmissionById(String id) {
+        return admissionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admission not found with ID: " + id));
     }
 }

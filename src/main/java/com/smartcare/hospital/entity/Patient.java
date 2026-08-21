@@ -20,4 +20,12 @@ public class Patient extends Person {
 
     @Column(name = "emergency_contact", length = 15)
     private String emergencyContact;
+
+    public String getPatientId() {
+        return getPersonId();
+    }
+
+    public void setPatientId(String patientId) {
+        setPersonId(patientId);
+    }
 }

@@ -32,4 +32,8 @@ public class Bill {
 
     @Column(name = "Payment_Status")
     private String paymentStatus = "Unpaid";
+
+    // Database එකේ save නොවන, Postman Payment Strategy සඳහා පමණක් භාවිත වන field එකක්
+    @Transient
+    private String paymentMethod;
 }

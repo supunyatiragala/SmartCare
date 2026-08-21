@@ -22,7 +22,8 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
-    public Optional<Doctor> getDoctorById(Long id) {
+    // Long id වෙනුවට String id යොදන්න
+    public Optional<Doctor> getDoctorById(String id) {
         return doctorRepository.findById(id);
     }
 }
