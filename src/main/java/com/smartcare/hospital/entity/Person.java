@@ -21,6 +21,7 @@ public class Person {
     @Column(name = "Person_ID", length = 20)
     private String personId;
 
+    // Explicit Getters (Lombok Error එක විසඳීමට)
     @Column(name = "Full_Name", nullable = false, length = 100)
     private String fullName;
 
@@ -35,4 +36,5 @@ public class Person {
 
     @Column(name = "Address")
     private String address;
+
 }

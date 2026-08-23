@@ -14,6 +14,15 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
 
     public Doctor addDoctor(Doctor doctor) {
+
+        if (doctor.getDoctorName() == null || doctor.getDoctorName().trim().isEmpty()) {
+            throw new RuntimeException("Doctor name cannot be empty!");
+        }
+
+        if (doctor.getConsultationFee() == null || doctor.getConsultationFee() <= 0) {
+            throw new RuntimeException("Consultation fee must be greater than zero!");
+        }
+
         return doctorRepository.save(doctor);
     }
 

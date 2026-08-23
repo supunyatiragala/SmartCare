@@ -15,6 +15,16 @@ public class PatientService {
     private PatientRepository patientRepository;
 
     public Patient savePatient(Patient patient) {
+        // 1. Validation: Patient Name check
+        if (patient.getFullName() == null || patient.getFullName().trim().isEmpty()) {
+            throw new RuntimeException("Patient name cannot be empty!");
+        }
+
+        // 2. Validation: Contact Number check (10 digits)
+        if (patient.getContactNumber() == null || !patient.getContactNumber().matches("^\\d{10}$")) {
+            throw new RuntimeException("Contact number must be valid (10 digits)!");
+        }
+
         return patientRepository.save(patient);
     }
 

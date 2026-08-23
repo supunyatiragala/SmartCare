@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Bill")
+@Table(name = "bills")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,23 +17,34 @@ import java.time.LocalDate;
 public class Bill {
 
     @Id
-    @Column(name = "Bill_ID", length = 20)
-    private String billId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "Patient_ID", nullable = false)
-    private Patient patient;
+    @Column(name = "bill_date")
+    private LocalDateTime billDate;
 
-    @Column(name = "Bill_Date", nullable = false)
-    private LocalDate billDate;
+    @Column(name = "consultation_charge")
+    private Double consultationCharge = 0.0;
 
-    @Column(name = "Total_Amount", nullable = false)
+    @Column(name = "room_charge")
+    private Double roomCharge = 0.0;
+
+    @Column(name = "lab_charge")
+    private Double labCharge = 0.0;
+
+    @Column(name = "medicine_charge")
+    private Double medicineCharge = 0.0;
+
+    @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
-    @Column(name = "Payment_Status")
-    private String paymentStatus = "Unpaid";
+    @Column(name = "payment_status")
+    private String paymentStatus = "UNPAID";
 
-    // Database එකේ save නොවන, Postman Payment Strategy සඳහා පමණක් භාවිත වන field එකක්
-    @Transient
+    @Column(name = "payment_method")
     private String paymentMethod;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 }

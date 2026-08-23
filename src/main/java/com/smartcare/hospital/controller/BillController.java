@@ -24,4 +24,9 @@ public class BillController {
     public ResponseEntity<List<Bill>> getAllBills() {
         return ResponseEntity.ok(billService.getAllBills());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Bill> getBillById(@PathVariable long id) {
+        return ResponseEntity.ok(billService.getBillById(id));
+    }
 }
