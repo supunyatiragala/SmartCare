@@ -15,20 +15,22 @@ import lombok.Setter;
 public class Doctor {
 
     @Id
-    @Column(name = "Doctor_ID", length = 20)
+    @Column(name = "Doctor_ID")
     private String doctorId;
 
-    @Column(name = "Doctor_Name", nullable = false, length = 100)
+    @Column(name = "Doctor_Name", nullable = false)
     private String doctorName;
 
-    @Column(name = "Specialization", nullable = false, length = 100)
+    @Column(name = "Specialization")
     private String specialization;
 
-    @Column(name = "Qualification", length = 100)
+    @Column(name = "Qualification")
     private String qualification;
 
-    // precision සහ scale ඉවත් කර ඇත
-    @Column(name = "Consultation_fee")
+    @Column(name = "Contact_Number")
+    private String contactNumber;
+
+    @Column(name = "Consultation_Fee", nullable = false)
     private Double consultationFee;
 
     @ManyToOne

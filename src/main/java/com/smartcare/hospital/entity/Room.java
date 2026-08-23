@@ -7,23 +7,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Room")
+@Table(name = "rooms")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
-
     @Id
-    @Column(name = "Room_ID", length = 20)
-    private String roomId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "Category", nullable = false)
-    private String category;
+    @Column(name = "room_number", unique = true, nullable = false)
+    private String roomNumber;
 
-    @Column(name = "Room_charge", nullable = false)
-    private Double roomCharge;
+    @Column(name = "bed_number", nullable = false)
+    private String bedNumber;
 
-    @Column(name = "Availability")
-    private String availability = "Available";
+    @Column(name = "room_type")
+    private String roomType;
+
+    @Column(name = "is_available")
+    private Boolean isAvailable = true;
+
+    @Column(name = "daily_rate", nullable = false)
+    private Double dailyRate;
 }

@@ -1,11 +1,7 @@
 package com.smartcare.hospital.service;
 
-import com.smartcare.hospital.entity.Doctor;
 import com.smartcare.hospital.entity.LabTest;
-import com.smartcare.hospital.entity.Patient;
-import com.smartcare.hospital.repository.DoctorRepository;
 import com.smartcare.hospital.repository.LabTestRepository;
-import com.smartcare.hospital.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,35 +14,41 @@ public class LabTestService {
     @Autowired
     private LabTestRepository labTestRepository;
 
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
+    // 1. Add Laboratory Test
     public LabTest addLabTest(LabTest labTest) {
-        Patient patient = patientRepository.findById(labTest.getPatient().getPatientId())
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-
-        Doctor doctor = doctorRepository.findById(labTest.getDoctor().getDoctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-
-        labTest.setPatient(patient);
-        labTest.setDoctor(doctor);
-
+        if (labTest.getTestName() == null || labTest.getTestName().trim().isEmpty()) {
+            throw new RuntimeException("Test name is required!");
+        }
+        if (labTest.getTestCost() == null || labTest.getTestCost() <= 0) {
+            throw new RuntimeException("Test cost must be greater than zero!");
+        }
         if (labTest.getTestDate() == null) {
             labTest.setTestDate(LocalDate.now());
         }
-        if (labTest.getTestStatus() == null) {
-            labTest.setTestStatus("Pending");
+        if (labTest.getStatus() == null) {
+            labTest.setStatus("PENDING");
         }
-        if (labTest.getTestResult() == null) {
-            labTest.setTestResult("Pending");
-        }
+        return labTestRepository.save(labTest);
+    }
+
+    // 2. Update Laboratory Results
+    public LabTest updateLabResult(Long id, String result, String technicianName) {
+        LabTest labTest = labTestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Lab test record not found with ID: " + id));
+
+        labTest.setResult(result);
+        labTest.setTechnicianName(technicianName);
+        labTest.setStatus("COMPLETED");
 
         return labTestRepository.save(labTest);
     }
 
+    // 3. View Laboratory History by Patient
+    public List<LabTest> getPatientLabHistory(String patientId) {
+        return labTestRepository.findByPatientPersonIdOrderByTestDateDesc(patientId);
+    }
+
+    // View All Lab Tests
     public List<LabTest> getAllLabTests() {
         return labTestRepository.findAll();
     }

@@ -15,30 +15,40 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    // 1. Register Patient (POST)
+    // 1. Register Patient
     @PostMapping
-    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
-        return ResponseEntity.ok(patientService.savePatient(patient));
+    public ResponseEntity<Patient> registerPatient(@RequestBody Patient patient) {
+        return ResponseEntity.ok(patientService.registerPatient(patient));
     }
 
-    // 2. View All Patients (GET)
+    // 2. View All Patients
     @GetMapping
     public ResponseEntity<List<Patient>> getAllPatients() {
         return ResponseEntity.ok(patientService.getAllPatients());
     }
 
-    // 3. View Patient By ID (GET)
+    // View Patient by ID
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable String id) {
-        return patientService.getPatientById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(patientService.getPatientById(id));
     }
 
-    // 4. Delete Patient (DELETE)
+    // 3. Update Patient Details
+    @PutMapping("/{id}")
+    public ResponseEntity<Patient> updatePatient(@PathVariable String id, @RequestBody Patient patientDetails) {
+        return ResponseEntity.ok(patientService.updatePatient(id, patientDetails));
+    }
+
+    // 4. Delete Patient Record
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePatient(@PathVariable String id) {
         patientService.deletePatient(id);
-        return ResponseEntity.ok("Patient deleted successfully!");
+        return ResponseEntity.ok("Patient record deleted successfully!");
+    }
+
+    // 5. Search Patients
+    @GetMapping("/search")
+    public ResponseEntity<List<Patient>> searchPatients(@RequestParam("query") String query) {
+        return ResponseEntity.ok(patientService.searchPatients(query));
     }
 }

@@ -1,16 +1,12 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Admission;
-import com.smartcare.hospital.entity.Patient;
 import com.smartcare.hospital.entity.Room;
 import com.smartcare.hospital.repository.AdmissionRepository;
-import com.smartcare.hospital.repository.PatientRepository;
 import com.smartcare.hospital.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class AdmissionService {
@@ -19,45 +15,41 @@ public class AdmissionService {
     private AdmissionRepository admissionRepository;
 
     @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
     private RoomRepository roomRepository;
 
+    // 1. Admit Patient & Allocate Room
     public Admission admitPatient(Admission admission) {
-        String patientId = admission.getPatient().getPersonId();
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found with ID: " + patientId));
+        Room room = roomRepository.findById(admission.getRoom().getId())
+                .orElseThrow(() -> new RuntimeException("Room not found!"));
 
-        String roomId = admission.getRoom().getRoomId();
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Room not found with ID: " + roomId));
-
-        // Room availability string එකක් බැවින් equalIgnoreCase පරීක්ෂා කිරීම
-        if ("Not Available".equalsIgnoreCase(room.getAvailability())) {
-            throw new RuntimeException("Room " + roomId + " is not available");
+        if (!room.getIsAvailable()) {
+            throw new RuntimeException("Selected room is already occupied!");
         }
 
-        admission.setPatient(patient);
-        admission.setRoom(room);
+        room.setIsAvailable(false);
+        roomRepository.save(room);
 
+        admission.setBedNumber(room.getBedNumber());
         if (admission.getAdmissionDate() == null) {
             admission.setAdmissionDate(LocalDate.now());
         }
-
-        if (admission.getAdmissionStatus() == null) {
-            admission.setAdmissionStatus("Admitted");
-        }
+        admission.setAdmissionStatus("Admitted");
 
         return admissionRepository.save(admission);
     }
 
-    public List<Admission> getAllAdmissions() {
-        return admissionRepository.findAll();
-    }
+    // 2. Discharge Patient
+    public Admission dischargePatient(String admissionId) {
+        Admission admission = admissionRepository.findById(admissionId)
+                .orElseThrow(() -> new RuntimeException("Admission not found!"));
 
-    public Admission getAdmissionById(String id) {
-        return admissionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Admission not found with ID: " + id));
+        admission.setAdmissionStatus("Discharged");
+        admission.setDischargeDate(LocalDate.now());
+
+        Room room = admission.getRoom();
+        room.setIsAvailable(true);
+        roomRepository.save(room);
+
+        return admissionRepository.save(admission);
     }
 }

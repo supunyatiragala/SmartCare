@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "bills")
@@ -20,19 +20,16 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "bill_date")
-    private LocalDateTime billDate;
-
-    @Column(name = "consultation_charge")
+    @Column(name = "consultation_charge", nullable = false)
     private Double consultationCharge = 0.0;
 
-    @Column(name = "room_charge")
+    @Column(name = "room_charge", nullable = false)
     private Double roomCharge = 0.0;
 
-    @Column(name = "lab_charge")
+    @Column(name = "lab_charge", nullable = false)
     private Double labCharge = 0.0;
 
-    @Column(name = "medicine_charge")
+    @Column(name = "medicine_charge", nullable = false)
     private Double medicineCharge = 0.0;
 
     @Column(name = "total_amount", nullable = false)
@@ -43,6 +40,9 @@ public class Bill {
 
     @Column(name = "payment_method")
     private String paymentMethod;
+
+    @Column(name = "bill_date")
+    private LocalDate billDate;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)

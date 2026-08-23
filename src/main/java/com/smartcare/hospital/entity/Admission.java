@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Entity
@@ -15,9 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admission {
-
     @Id
-    @Column(name = "Admission_ID", length = 20)
+    @Column(name = "Admission_ID")
     private String admissionId;
 
     @ManyToOne
@@ -27,6 +25,9 @@ public class Admission {
     @ManyToOne
     @JoinColumn(name = "Room_ID", nullable = false)
     private Room room;
+
+    @Column(name = "Bed_Number", nullable = false)
+    private String bedNumber;
 
     @Column(name = "Admission_Date", nullable = false)
     private LocalDate admissionDate;

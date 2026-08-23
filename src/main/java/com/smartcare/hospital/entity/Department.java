@@ -15,12 +15,15 @@ import lombok.Setter;
 public class Department {
 
     @Id
-    @Column(name = "Department_ID", length = 20)
+    @Column(name = "Department_ID")
     private String departmentId;
 
-    @Column(name = "Department_Name", nullable = false, length = 100)
+    @Column(name = "Department_Name", nullable = false)
     private String departmentName;
 
-    @Column(name = "Location", length = 100)
+    @Column(name = "Location")
     private String location;
+
+    @Column(name = "Head_Doctor")
+    private String headDoctor;
 }

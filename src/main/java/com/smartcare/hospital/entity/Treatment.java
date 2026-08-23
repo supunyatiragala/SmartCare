@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Treatment")
+@Table(name = "treatments")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,20 +17,30 @@ import java.time.LocalDate;
 public class Treatment {
 
     @Id
-    @Column(name = "Treatment_ID", length = 20)
-    private String treatmentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Patient_ID", nullable = false)
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "Doctor_ID")
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "Treatment_Details")
-    private String treatmentDetails;
+    @Column(name = "diagnosis", nullable = false, columnDefinition = "TEXT")
+    private String diagnosis;
 
-    @Column(name = "Treatment_Date", nullable = false)
-    private LocalDate treatmentDate;
+    @Column(name = "prescription", nullable = false, columnDefinition = "TEXT")
+    private String prescription;
+
+    @Column(name = "treatment_notes", columnDefinition = "TEXT")
+    private String treatmentNotes;
+
+    @Column(name = "treatment_date")
+    private LocalDateTime treatmentDate;
 }
