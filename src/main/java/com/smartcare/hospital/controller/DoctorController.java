@@ -27,6 +27,12 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.getAllDoctors());
     }
 
+    // 4. Search Doctors (Placed before /{id} to prevent routing conflict)
+    @GetMapping("/search")
+    public ResponseEntity<List<Doctor>> searchDoctors(@RequestParam("query") String query) {
+        return ResponseEntity.ok(doctorService.searchDoctors(query));
+    }
+
     // View Doctor by ID
     @GetMapping("/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable String id) {
@@ -44,12 +50,6 @@ public class DoctorController {
     public ResponseEntity<String> deleteDoctor(@PathVariable String id) {
         doctorService.deleteDoctor(id);
         return ResponseEntity.ok("Doctor record deleted successfully!");
-    }
-
-    // 4. Search Doctors
-    @GetMapping("/search")
-    public ResponseEntity<List<Doctor>> searchDoctors(@RequestParam("query") String query) {
-        return ResponseEntity.ok(doctorService.searchDoctors(query));
     }
 
     // 5. Assign Doctor to Department

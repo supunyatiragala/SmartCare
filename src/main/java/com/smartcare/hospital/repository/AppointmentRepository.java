@@ -11,8 +11,10 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
 
-    List<Appointment> findByDoctorDoctorId(String doctorId);
+    // Updated from DoctorId to PersonId
+    List<Appointment> findByDoctorPersonId(String doctorId);
 
-    boolean existsByDoctorDoctorIdAndAppointmentDateAndAppointmentTimeAndAppointmentStatusNot(
+    // Updated from DoctorId to PersonId
+    boolean existsByDoctorPersonIdAndAppointmentDateAndAppointmentTimeAndAppointmentStatusNot(
             String doctorId, LocalDate appointmentDate, LocalTime appointmentTime, String status);
 }

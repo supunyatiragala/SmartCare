@@ -21,9 +21,9 @@ public class AppointmentService {
             throw new RuntimeException("Appointment date cannot be in the past!");
         }
 
-        // Validation 02: Time Slot Clash Check
-        boolean isBooked = appointmentRepository.existsByDoctorDoctorIdAndAppointmentDateAndAppointmentTimeAndAppointmentStatusNot(
-                appointment.getDoctor().getDoctorId(),
+        // Validation 02: Time Slot Clash Check (Updated from getDoctorId to getPersonId)
+        boolean isBooked = appointmentRepository.existsByDoctorPersonIdAndAppointmentDateAndAppointmentTimeAndAppointmentStatusNot(
+                appointment.getDoctor().getPersonId(),
                 appointment.getAppointmentDate(),
                 appointment.getAppointmentTime(),
                 "Cancelled"
@@ -76,8 +76,8 @@ public class AppointmentService {
         return appointmentRepository.save(existing);
     }
 
-    // 4. View Doctor Schedule
+    // 4. View Doctor Schedule (Updated to use PersonId)
     public List<Appointment> getDoctorSchedule(String doctorId) {
-        return appointmentRepository.findByDoctorDoctorId(doctorId);
+        return appointmentRepository.findByDoctorPersonId(doctorId);
     }
 }

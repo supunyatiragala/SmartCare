@@ -8,27 +8,18 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Doctor")
+@PrimaryKeyJoinColumn(name = "Doctor_ID")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doctor {
-
-    @Id
-    @Column(name = "Doctor_ID")
-    private String doctorId;
-
-    @Column(name = "Doctor_Name", nullable = false)
-    private String doctorName;
+public class Doctor extends Person {
 
     @Column(name = "Specialization")
     private String specialization;
 
     @Column(name = "Qualification")
     private String qualification;
-
-    @Column(name = "Contact_Number")
-    private String contactNumber;
 
     @Column(name = "Consultation_Fee", nullable = false)
     private Double consultationFee;

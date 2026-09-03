@@ -45,7 +45,8 @@ public class DoctorService {
             throw new RuntimeException("Consultation fee must be greater than zero!");
         }
 
-        existing.setDoctorName(doctorDetails.getDoctorName());
+        // Updated from setDoctorName to setFullName (Inherited from Person)
+        existing.setFullName(doctorDetails.getFullName());
         existing.setSpecialization(doctorDetails.getSpecialization());
         existing.setQualification(doctorDetails.getQualification());
         existing.setContactNumber(doctorDetails.getContactNumber());
@@ -64,9 +65,9 @@ public class DoctorService {
         doctorRepository.delete(existing);
     }
 
-    // 4. Search Doctors
+    // 4. Search Doctors (Updated to match fullName from Person)
     public List<Doctor> searchDoctors(String query) {
-        return doctorRepository.findByDoctorNameContainingIgnoreCaseOrSpecializationContainingIgnoreCase(query, query);
+        return doctorRepository.findByFullNameContainingIgnoreCaseOrSpecializationContainingIgnoreCase(query, query);
     }
 
     // 5. Assign Doctor to Department
