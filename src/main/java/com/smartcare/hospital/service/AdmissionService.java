@@ -7,6 +7,7 @@ import com.smartcare.hospital.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AdmissionService {
@@ -51,5 +52,14 @@ public class AdmissionService {
         roomRepository.save(room);
 
         return admissionRepository.save(admission);
+    }
+
+    public List<Admission> getAllAdmissions() {
+        return admissionRepository.findAll();
+    }
+
+    public Admission getAdmissionById(String id) {
+        return admissionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admission not found with id: " + id));
     }
 }
